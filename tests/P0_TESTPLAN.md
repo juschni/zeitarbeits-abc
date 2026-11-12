@@ -34,3 +34,11 @@ Grundentgelte 01.09.2026–31.03.2027: EG1 15,33; 2a 15,67; 2b 16,08; 3 17,11; 4
 
 ## Abschlussbedingung
 P0 erst schließen, wenn Browser-/Regressionstests bestanden, Eingabevalidierung vollständig und Quellen-/Tarifstand dokumentiert sind. Bis dahin ausschließlich Prüfversion.
+
+## Implementierungsnachtrag 12.11.2026
+- Euro-Eingaben: Formatvalidierung im Frontend ergänzt (max. zwei Dezimalstellen, nicht negativ).
+- Ergebnis: Erfahrungszuschläge, iGZ-Übergangsregel und Grenzen ausdrücklich ausgewiesen.
+- Playwright-Tests: fünf automatisierte Browserfälle implementiert, für Desktop-Chromium und emuliertes Android/Pixel-7-Profil konfiguriert.
+- GitHub Actions: Workflow angelegt unter `.github/workflows/p0-tests.yml`.
+- **Testlaufstatus: noch nicht durch erfolgreiche CI-Ausführung nachgewiesen.** Testfälle T01, T04, T08, T09 teilweise abgedeckt; T02/T03 abgedeckt. T06/T07/T10 benötigen zusätzliche Fälle oder reale Geräteprüfung.
+- **Freigabe bleibt gesperrt**, bis Workflow grün, Restfälle ergänzt und ein echter Telegram-WebView-Test nach der letzten Änderung bestätigt sind.
