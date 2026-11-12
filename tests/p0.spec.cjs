@@ -49,3 +49,48 @@ test('Änderung nach Zurück wird übernommen',async({page})=>{
  await page.getByRole('button',{name:'Ergebnis anzeigen'}).click();
  await expect(page.locator('#report')).not.toContainText('0,58');
 });
+
+test('Fehlende Angaben bleiben erkennbar',async({page})=>{
+ await page.locator('#s1').getByRole('button',{name:'Weiter'}).click();
+ await page.locator('#s2').getByRole('button',{name:'Weiter'}).click();
+ await page.getByRole('button',{name:'Ergebnis anzeigen'}).click();
+ await expect(page.locator('#report')).toContainText('fehlen Angaben');
+ await expect(page.locator('#report')).toContainText('Tarifgeltung');
+});
+test('Abweichende Selbsteinschätzung ist keine automatische Höhergruppierung',async({page})=>{
+ await page.locator('#level').selectOption('4');
+ await page.locator('#s1').getByRole('button',{name:'Weiter'}).click();
+ await page.locator('#tariff').selectOption('dgb');
+ await page.locator('#eg').selectOption('1');
+ await page.locator('#base').fill('15,33');
+ await page.locator('#s2').getByRole('button',{name:'Weiter'}).click();
+ await page.getByRole('button',{name:'Ergebnis anzeigen'}).click();
+ await expect(page.locator('#report')).toContainText('weicht von deiner Selbsteinschätzung');
+ await expect(page.locator('#report')).toContainText('keine tarifliche Eingruppierung');
+});
+test('Zulagen werden nicht ungeprüft addiert',async({page})=>{
+ await page.locator('#s1').getByRole('button',{name:'Weiter'}).click();
+ await page.locator('#tariff').selectOption('dgb');
+ await page.locator('#eg').selectOption('2b');
+ await page.locator('#base').fill('16,08');
+ await page.locator('#s2 summary').click();
+ await page.locator('#branch').fill('1,20');
+ await page.locator('#s2').getByRole('button',{name:'Weiter'}).click();
+ await page.getByRole('button',{name:'Ergebnis anzeigen'}).click();
+ await expect(page.locator('#report')).toContainText('Zulagen und mögliche Anrechnungen separat prüfen');
+ await expect(page.locator('#report')).not.toContainText('17,28');
+});
+test('Negativer Betrag wird abgewiesen',async({page})=>{
+ await page.locator('#s1').getByRole('button',{name:'Weiter'}).click();
+ await page.locator('#base').fill('-1');
+ await page.locator('#s2').getByRole('button',{name:'Weiter'}).click();
+ await page.getByRole('button',{name:'Ergebnis anzeigen'}).click();
+ await expect(page.locator('#validation')).toContainText('korrigieren');
+});
+test('Zu viele Nachkommastellen werden abgewiesen',async({page})=>{
+ await page.locator('#s1').getByRole('button',{name:'Weiter'}).click();
+ await page.locator('#base').fill('16,081');
+ await page.locator('#s2').getByRole('button',{name:'Weiter'}).click();
+ await page.getByRole('button',{name:'Ergebnis anzeigen'}).click();
+ await expect(page.locator('#validation')).toContainText('korrigieren');
+});
