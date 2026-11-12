@@ -22,6 +22,7 @@ test('Abrechnung 15,80 statt 16,08 ergibt 0,28 Differenz',async({page})=>{
  await page.locator('#s1').getByRole('button',{name:'Weiter'}).click();
  await page.locator('#base').fill('16,08');
  await page.locator('#s2').getByRole('button',{name:'Weiter'}).click();
+ await page.locator('#s3 summary').click();
  await page.locator('#paid').fill('15,80');
  await page.getByRole('button',{name:'Ergebnis anzeigen'}).click();
  await expect(page.locator('#report')).toContainText('0,28');
