@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 test.beforeEach(async ({ page }) => { await page.goto('/'); });
 test('Ergebnisbutton und Grundlohnabweichung',async({page})=>{
- await page.locator('#level').selectOption('2b');
+ await page.locator('#qualification').selectOption('three');
  await page.getByRole('button',{name:'Weiter'}).first().click();
  await page.locator('#tariff').selectOption('dgb');
  await page.locator('#eg').selectOption('2b');
@@ -57,16 +57,16 @@ test('Fehlende Angaben bleiben erkennbar',async({page})=>{
  await expect(page.locator('#report')).toContainText('fehlen Angaben');
  await expect(page.locator('#report')).toContainText('Tarifgeltung');
 });
-test('Abweichende Selbsteinschätzung ist keine automatische Höhergruppierung',async({page})=>{
- await page.locator('#level').selectOption('4');
+test('Ausbildung allein erzeugt keine automatische Höhergruppierung',async({page})=>{
+ await page.locator('#qualification').selectOption('three');
+ await page.locator('#tasks').fill('Maschinen einrichten und Störungen beheben');
  await page.locator('#s1').getByRole('button',{name:'Weiter'}).click();
  await page.locator('#tariff').selectOption('dgb');
  await page.locator('#eg').selectOption('1');
  await page.locator('#base').fill('15,33');
  await page.locator('#s2').getByRole('button',{name:'Weiter'}).click();
  await page.getByRole('button',{name:'Meinen Lohn prüfen'}).click();
- await expect(page.locator('#report')).toContainText('weicht von deiner Selbsteinschätzung');
- await expect(page.locator('#report')).toContainText('keine tarifliche Eingruppierung');
+ await expect(page.locator('#report')).toContainText('Ausbildung allein bestimmt die Entgeltgruppe nicht');
 });
 test('Zulagen werden nicht ungeprüft addiert',async({page})=>{
  await page.locator('#s1').getByRole('button',{name:'Weiter'}).click();
@@ -104,5 +104,5 @@ test('Feedback kann ohne personenbezogene Pflichtangaben vorbereitet werden',asy
 });
 test('Neue Einstiegstexte erklären Nutzen und Grenzen',async({page})=>{
  await expect(page.getByRole('heading',{name:'Machst du mehr, als du bezahlt bekommst?'})).toBeVisible();
- await expect(page.locator('#s1')).toContainText('keine tarifliche Eingruppierung');
+ await expect(page.locator('#s1')).toContainText('Die automatische Zuordnung zu einer Entgeltgruppe ist noch nicht verfügbar');
 });
