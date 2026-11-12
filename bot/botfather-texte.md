@@ -4,7 +4,7 @@
 Zeitarbeits-ABC
 
 ## /setdescription
-Zeitarbeit verstehen, Lohn prüfen, Rechte kennen. Der kostenlose Kurzcheck hilft dir, deine Eingruppierung und deinen Stundenlohn einzuordnen, Auffälligkeiten zu erkennen und konkrete Fragen an deinen Arbeitgeber zu formulieren. Unverbindliche Orientierung, keine Rechtsberatung.
+Zeitarbeit im Klartext. Lohn prüfen, Eingruppierung verstehen, Rechte kennen. Kostenlos. Für Arbeitnehmer.
 
 ## /setabouttext
 Zeitarbeit im Klartext. Lohn, Eingruppierung und Rechte – für Arbeitnehmer.
